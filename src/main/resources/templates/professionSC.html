@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>开设专业院校</title>
+    <meta name="viewport" http-equiv="Content-Type" content="text/html; charset=UTF-8;width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/college.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+</head>
+<body>
+<div class="page-header" style="margin-left: 30px">
+    <h2>安全工程</h2>
+    <h5>安全工程是隶属于一级学科“安全科学与工程（学科代码0837）”的一个二级学科，
+        该专业注重培养能从事安全技术及工程、安全科学与研究、安全监察与管理、
+        工作场所危险有害因素识别与检测、安全设计与生产、安全教育与培训、
+        生产型企业职业卫生防护等方面复合型的高级工程技术人才，是一个涉及面极广的综合交叉学科。</h5>
+</div>
+<div th:fragment="nav">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">开设专业院校</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form class="navbar-form navbar-right">
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>
+<div>
+    <div class="container-fluid">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group" th:each="school:${schools}">
+                <li class="media" >
+                    <a th:href="@{'/school_desc_l/'+${school.scid}}" style="text-decoration: none;">
+                        <div class="media-body" >
+                            <h4 class="media-heading" th:text="${school.name}"></h4>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12 " style=" display: block;margin-left: auto;margin-right: auto;padding: 30px;min-height: 500px">
+            <iframe src="//player.bilibili.com/player.html?aid=61820222&cid=107494801&page=3" scrolling="no" border="0"
+                    frameborder="no" framespacing="0" allowfullscreen="true" style="width: 100%; min-height: 450px"> </iframe>
+    </div>
+</div>
+<div th:insert="~{navigation :: nav}">
+
+</div>
+</body>
+</html>

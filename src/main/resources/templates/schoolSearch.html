@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>院校大全</title>
+    <meta name="viewport" http-equiv="Content-Type" content="text/html; charset=UTF-8;width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/docs/css/bootstrap-example.min.css" type="text/css">
+    <link rel="stylesheet" href="/docs/css/prettify.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/college.css">
+    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script type="text/javascript" src="/docs/js/prettify.min.js"></script>
+    <link rel="stylesheet" href="/dist/css/bootstrap-multiselect.css" type="text/css">
+    <script type="text/javascript" src="/dist/js/bootstrap-multiselect.js"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.prettyPrint() && prettyPrint();
+        });
+        // 插件实例
+        $(document).ready(function () {
+            $("#typeId").multiselect();
+            // 点击事件获取所有选中option的value值
+            $("#btn").click(function () {
+                var selectValueStr = [];
+                $("#typeId option:selected").each(function () {
+                    selectValueStr.push($(this).val());
+                })
+                console.log(selectValueStr)
+            })
+        });
+        $(function() {
+            if (localStorage.getItem('ctc')) {
+                $("#ctc option").eq(localStorage.getItem('ctc')).prop('selected', true);
+            }
+
+            $("#ctc").on('change', function() {
+                localStorage.setItem('ctc', $('option:selected', this).index());
+            });
+        });
+        $(function() {
+            if (localStorage.getItem('ctc2')) {
+                $("#ctc2 option").eq(localStorage.getItem('ctc2')).prop('selected', true);
+            }
+
+            $("#ctc2").on('change', function() {
+                localStorage.setItem('ctc2', $('option:selected', this).index());
+            });
+        });
+        function downloadFile(){
+            document.demo.action="/SchoolExcelDownloads";
+            document.demo.submit();
+        }
+
+        function search() {
+            document.demo.action="/schoolSearch";
+            document.demo.submit();
+        }
+    </script>
+</head>
+<body>
+<div th:fragment="nav">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/school">院校大全</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <form name="demo" class="navbar-form navbar-nav">
+                        <select class="selectpicker" id="ctc" name="select" multiple  data-actions-box="true">
+                            <option  th:each="area:${areas}" th:value="${area.name}" th:text="${area.name}"></option>
+                        </select>
+                    <div class="form-group" >
+                        <select class="selectpicker" id="ctc2" name="proSearch" multiple data-live-search="true" data-actions-box="true">
+                            <option th:each="profession:${professions}" th:value="${profession.proname}" th:text="${profession.proname}"></option>
+                        </select>
+                    </div>
+                    <button id="btn" type="submit" class="btn btn-default" onclick="search()">搜索开设该专业的高校</button>
+                    <button class="btn btn-default" onclick="downloadFile();">学校数据导出</button>
+                </form>
+                <form class="navbar-form navbar-right" action="/schoolSearch" method="get">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="search" placeholder="搜索大学">
+                    </div>
+                    <button type="submit" class="btn btn-default">搜索</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="contentDiv">
+    <div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group" th:each="searchs:${searchss.schools}">
+                <li class="media">
+                    <a th:href="@{'school_desc_l/'+${searchs.scid}}" style="text-decoration: none;">
+                        <div class="media-body">
+                            <span class="media-heading" th:text="${searchs.name}"></span>
+                            <span class="label label-info" th:text="${searchs.tag1}"></span>
+                            <span class="label label-info" th:text="${searchs.tag2}"></span>
+
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group" th:each="proSearchs:${proSearchss.schools}">
+                <li class="media">
+                    <a th:href="@{'school_desc_l/'+${proSearchs.scid}}" style="text-decoration: none;">
+                        <div class="media-body">
+                            <span class="media-heading" th:text="${proSearchs.name}"></span>
+                            <span class="label label-info" th:text="${proSearchs.tag1}"></span>
+                            <span class="label label-info" th:text="${proSearchs.tag2}"></span>
+
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group" th:each="selects:${selectss.schools}">
+                <li class="media">
+                    <a th:href="@{'school_desc_l/'+${selects.scid}}" style="text-decoration: none;">
+                        <div class="media-body">
+                            <span class="media-heading" th:text="${selects.name}"></span>
+                            <span class="label label-info" th:text="${selects.tag1}">Info</span>
+                            <span class="label label-info" th:text="${selects.tag2}"></span>
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div th:insert="~{navigation :: nav}"></div>
+</body>
+</html>
